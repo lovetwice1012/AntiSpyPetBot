@@ -4,6 +4,7 @@ const client = new discord.Client({ intents: [GatewayIntentBits.Guilds, GatewayI
 const config = require('./config.json');
 
 async function refreshSpyPetBotIdsDatabase() {
+    return new Promise((resolve, reject) => {
     console.log('Refreshing bot IDs database...')
     //https://kickthespy.pet/idsより、spy.petのbotのid一覧を取得
     fetch('https://kickthespy.pet/ids')
@@ -14,8 +15,9 @@ async function refreshSpyPetBotIdsDatabase() {
             //botのid一覧を表示
             console.log('Known bot IDs:')
             console.log(ids);
-            return ids;
+            resolve(ids);
         });
+    });
 }
 
 const slashCommands = [
