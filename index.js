@@ -3,6 +3,13 @@ const {GatewayIntentBits} = require('discord.js');
 const client = new discord.Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers]});
 const config = require('./config.json');
 
+process.on('unhandledRejection', error => {
+    console.error('Unhandled promise rejection:', error);
+});
+process.on('uncaughtException', error => {
+    console.error('Uncaught exception:', error);
+});
+
 async function refreshSpyPetBotIdsDatabase() {
     return new Promise((resolve, reject) => {
     console.log('Refreshing bot IDs database...')
@@ -54,7 +61,6 @@ client.on('ready', async () => {
 client.on('interactionCreate', async interaction => {
     interaction.deferReply();
     if (!interaction.isCommand()) return;
-    console.log(botIds)
 
     const { commandName } = interaction;
 
