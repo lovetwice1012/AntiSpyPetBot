@@ -45,12 +45,13 @@ global.botIds = []
 
 client.on('ready', async () => {
     console.log('Bot is ready');
-    global.botIds = await refreshSpyPetBotIdsDatabase();
+    botIds = await refreshSpyPetBotIdsDatabase();
     client.application.commands.set(slashCommands);
 });
 
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
+    console.log(botIds)
 
     const { commandName } = interaction;
 
@@ -58,7 +59,7 @@ client.on('interactionCreate', async interaction => {
         //botIdsに含まれるbotのidを持つメンバーをBANする
         interaction.guild.members.fetch().then(members => {
             members.forEach(member => {
-                if (global.botIds.includes(member.id)) {
+                if (botIds.includes(member.id)) {
                     member.ban();
                 }
             });
@@ -100,7 +101,7 @@ client.on('interactionCreate', async interaction => {
 });
 
 client.on('GuildMemberAdd', member => {
-    if (global.botIds.includes(member.id)) {
+    if (botIds.includes(member.id)) {
         member.ban();
     }
 });
