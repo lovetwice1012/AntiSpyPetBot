@@ -83,8 +83,8 @@ client.on('interactionCreate', async interaction => {
                 }
             });
             if(!flag) await interaction.followUp('No spy.pet bots were found in the server\nstart banning all known spy.pet bots');
-            botIds.forEach(id => {
-                interaction.guild.bans.create(id, { reason: 'Known spy.pet bot'});
+            botIds.forEach(async id => {
+                await interaction.guild.bans.create(id, { reason: 'Known spy.pet bot'});
             });
             await interaction.followUp('Banned all known spy.pet bots');
             if(!flag) return;
