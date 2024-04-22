@@ -54,15 +54,16 @@ botIds = []
 
 client.on('ready', async () => {
     console.log('Bot is ready');
-    botIds = await refreshSpyPetBotIdsDatabase();
+    botIds = require("./spypetbot.json").list
     client.application.commands.set(slashCommands);
-
+    /*
     setInterval(async () => {
         botIds = await refreshSpyPetBotIdsDatabase();
     }, 1000 * 60);
+    */
     client.user.setPresence({ activities: [{ name: `on ${client.guilds.cache.size} servers | watching ${client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)} members | and I know ${botIds.length} Spy.Pet Bots`,  type:ActivityType.Watching }] , status:'online' });
     setInterval(async () => {
-        client.user.setPresence({ activities: [{ name: `on ${client.guilds.cache.size} servers | watching ${client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)} members | and I know ${botIds.length} Spy.Pet Bots`,  type:ActivityType.Watching }] , status:'online'});
+        client.user.setPresence({ activities: [{ name: `on ${client.guilds.cache.size} servers | watching ${client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)} members | and I know ${botIds.length} Spy.Pet Bots(List Updated at ${require("./spypetbot.json").lastUpdate})`,  type:ActivityType.Watching }] , status:'online'});
     }, 1000 * 20);
 });
 
