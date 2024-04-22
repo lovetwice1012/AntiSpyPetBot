@@ -10,7 +10,7 @@ async function refreshSpyPetBotIdsDatabase() {
         .then(res => res.json())
         .then(json => {
             //botのid一覧を取得
-            const ids = json.ids;
+            const ids = json;
             //botのid一覧を表示
             console.log('Known bot IDs:')
             console.log(ids);
