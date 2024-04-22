@@ -1,5 +1,5 @@
 const discord = require('discord.js');
-const {GatewayIntentBits} = require('discord.js');
+const {GatewayIntentBits,ActivityType } = require('discord.js');
 const client = new discord.Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers]});
 const config = require('./config.json');
 
@@ -62,7 +62,7 @@ client.on('ready', async () => {
     }, 1000 * 60);
     
     setInterval(async () => {
-        client.user.setActivity(`on ${client.guilds.cache.size} servers | watching ${client.members.cache.size} members | and I know ${botIds.length} Spy.Pet Bots`, { type: 'WATCHING' });
+        client.user.setActivity({ activities: [{ name: `on ${client.guilds.cache.size} servers | watching ${client.members.cache.size} members | and I know ${botIds.length} Spy.Pet Bots`,  type: 	ActivityType.Watching }]});
     }, 1000 * 20);
 });
 
