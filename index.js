@@ -67,7 +67,7 @@ client.on('ready', async () => {
 });
 
 client.on('interactionCreate', async interaction => {
-    interaction.deferReply();
+    await interaction.deferReply();
     if (!interaction.isCommand()) return;
 
     const { commandName } = interaction;
