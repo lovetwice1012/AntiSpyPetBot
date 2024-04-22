@@ -1,5 +1,5 @@
 const discord = require('discord.js');
-const client = new discord.Client({ intents: [discord.GatewayIntentBits.Guild, discord.GatewayIntentBits.GuildMembers]});
+const client = new discord.Client({ intents: [discord.GatewayIntentBits.Guild, discord.GatewayIntentBits.GuildMember]});
 const config = require('./config.json');
 
 async function refreshSpyPetBotIdsDatabase() {
