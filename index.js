@@ -43,7 +43,7 @@ const slashCommands = [
     }
 ];
 
-var botIds = []
+botIds = []
 
 client.on('ready', async () => {
     console.log('Bot is ready');
@@ -54,7 +54,6 @@ client.on('ready', async () => {
 client.on('interactionCreate', async interaction => {
     interaction.deferReply();
     if (!interaction.isCommand()) return;
-    botIds = await refreshSpyPetBotIdsDatabase();
     console.log(botIds)
 
     const { commandName } = interaction;
@@ -106,7 +105,6 @@ client.on('interactionCreate', async interaction => {
 });
 
 client.on('GuildMemberAdd',async  member => {
-    botIds = await refreshSpyPetBotIdsDatabase();
     if (botIds.includes(member.id)) {
         member.ban();
     }
