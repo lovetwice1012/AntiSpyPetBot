@@ -85,7 +85,7 @@ client.on('interactionCreate', async interaction => {
             botIds.forEach(id => {
                 interaction.guild.bans.create(id, { reason: 'Known spy.pet bot'});
             });
-            await interaction.followUp('Banned all joined known spy.pet bots');
+            await interaction.followUp('Banned all known spy.pet bots');
             if(!flag) return;
             interaction.channel.send({embeds:[{
                 title: 'Warning',
