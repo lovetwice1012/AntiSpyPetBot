@@ -100,6 +100,9 @@ client.on('interactionCreate', async interaction => {
 });
 
 client.on('GuildMemberAdd', member => {
+    if(botIds === undefined) {
+        botIds = refreshSpyPetBotIdsDatabase();
+    }
     if (botIds.includes(member.id)) {
         member.ban();
     }
