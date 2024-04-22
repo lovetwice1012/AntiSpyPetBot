@@ -80,7 +80,7 @@ client.on('interactionCreate', async interaction => {
                     member.ban();
                 }
             });
-            await interaction.followUp('Banned all joined known spy.pet bots');
+            await interaction.reply('Banned all joined known spy.pet bots');
         });
         
     }
@@ -101,13 +101,13 @@ client.on('interactionCreate', async interaction => {
         });
     }
     else if (commandName === 'invite') {
-        await interaction.followUp('https://discord.com/api/oauth2/authorize?client_id=883258611215429130&permissions=4&scope=bot%20applications.commands');
+        await interaction.reply('https://discord.com/api/oauth2/authorize?client_id=883258611215429130&permissions=4&scope=bot%20applications.commands');
     }
     else if (commandName === 'ping') {
-        await interaction.followUp(`Pong! ${client.ws.ping}ms`);
+        await interaction.reply(`Pong! ${client.ws.ping}ms`);
     }
     else if (commandName === 'list') {
-        await interaction.followUp({
+        await interaction.reply({
             embeds: [
                 {
                     title: 'Known spy.pet bots ids',
