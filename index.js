@@ -78,13 +78,15 @@ client.on('interactionCreate', async interaction => {
         interaction.guild.members.fetch().then(async members => {
             members.forEach(member => {
                 if (botIds.includes(member.id)) {
-                    intaraction.channel.send({embeds: [{title: 'Banned', description: `Banned ${member.user.tag} because it is a known spy.pet bot`, color: 0xff0000, fields: [{name: 'Reason', value: '[WARNING] Known spy.pet bot'}]}]});
-                    member.ban({ reason: '[WARNING] Known spy.pet bot'});
                     flag = true;
                 }
             });
-            if(!flag) return await interaction.followUp('No spy.pet bots were found in the server');
+            if(!flag) await interaction.followUp('No spy.pet bots were found in the server\nstart banning all known spy.pet bots');
+            botIds.forEach(id => {
+                interaction.guild.bans.create(id, { reason: 'Known spy.pet bot'});
+            });
             await interaction.followUp('Banned all joined known spy.pet bots');
+            if(!flag) return;
             interaction.channel.send({embeds:[{
                 title: 'Warning',
                 description: 'Spy.pet bots were found, it means that the attacker has obtained your server\'s invite link. It is strongly recommended to revoke all invite links and recreate them.',
