@@ -74,13 +74,23 @@ client.on('interactionCreate', async interaction => {
 
     if (commandName === 'banbots') {
         //botIdsに含まれるbotのidを持つメンバーをBANする
+        let flag = false;
         interaction.guild.members.fetch().then(async members => {
             members.forEach(member => {
                 if (botIds.includes(member.id)) {
-                    member.ban();
+                    intaraction.channel.send({embeds: [{title: 'Banned', description: `Banned ${member.user.tag} because it is a known spy.pet bot`, color: 0xff0000, fields: [{name: 'Reason', value: '[WARNING] Known spy.pet bot'}]}]});
+                    member.ban({ reason: '[WARNING] Known spy.pet bot'});
+                    flag = true;
                 }
             });
+            if(!flag) return await interaction.followUp('No spy.pet bots were found in the server');
             await interaction.followUp('Banned all joined known spy.pet bots');
+            interaction.channel.send({embeds:[{
+                title: 'Warning',
+                description: 'Spy.pet bots were found, it means that the attacker has obtained your server\'s invite link. It is strongly recommended to revoke all invite links and recreate them.',
+                color: 0xff0000
+            }]})
+            
         });
         
     }
@@ -120,7 +130,7 @@ client.on('interactionCreate', async interaction => {
 
 client.on('GuildMemberAdd',async  member => {
     if (botIds.includes(member.id)) {
-        member.ban();
+        member.ban({ reason: '[WARNING] Known spy.pet bot'});
     }
 });
 
