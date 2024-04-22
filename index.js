@@ -51,20 +51,22 @@ client.on('ready', async () => {
 
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
+    botIds = await refreshSpyPetBotIdsDatabase();
     console.log(botIds)
 
     const { commandName } = interaction;
 
     if (commandName === 'banbots') {
         //botIdsに含まれるbotのidを持つメンバーをBANする
-        interaction.guild.members.fetch().then(members => {
+        interaction.guild.members.fetch().then(async members => {
             members.forEach(member => {
                 if (botIds.includes(member.id)) {
                     member.ban();
                 }
             });
+            await interaction.reply('Banned all joined known spy.pet bots');
         });
-        await interaction.reply('Banned all joined known spy.pet bots');
+        
     }
     else if (commandName === 'help') {
         await interaction.reply({
@@ -100,7 +102,8 @@ client.on('interactionCreate', async interaction => {
     }
 });
 
-client.on('GuildMemberAdd', member => {
+client.on('GuildMemberAdd',async  member => {
+    botIds = await refreshSpyPetBotIdsDatabase();
     if (botIds.includes(member.id)) {
         member.ban();
     }
