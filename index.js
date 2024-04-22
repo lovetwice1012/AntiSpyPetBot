@@ -26,6 +26,18 @@ const slashCommands = [
     {
         name: 'help',
         description: 'Display help'
+    },
+    {
+        name: 'invite',
+        description: 'Get the invite link for this bot'
+    },
+    {
+        name: 'ping',
+        description: 'Get the bot\'s ping'
+    },
+    {
+        name: 'list',
+        description: 'List all known spy.pet bots'
     }
 ];
 
@@ -65,6 +77,22 @@ client.on('interactionCreate', async interaction => {
                             value: slashCommands.map(command => `/${command.name} - ${command.description}`).join('\n')
                         }
                     ]
+                }
+            ]
+        });
+    }
+    else if (commandName === 'invite') {
+        await interaction.reply('https://discord.com/api/oauth2/authorize?client_id=883258611215429130&permissions=4&scope=bot%20applications.commands');
+    }
+    else if (commandName === 'ping') {
+        await interaction.reply(`Pong! ${client.ws.ping}ms`);
+    }
+    else if (commandName === 'list') {
+        await interaction.reply({
+            embeds: [
+                {
+                    title: 'Known spy.pet bots ids',
+                    description: botIds.join('\n')
                 }
             ]
         });
