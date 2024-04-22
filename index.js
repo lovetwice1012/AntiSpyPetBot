@@ -56,6 +56,14 @@ client.on('ready', async () => {
     console.log('Bot is ready');
     botIds = await refreshSpyPetBotIdsDatabase();
     client.application.commands.set(slashCommands);
+
+    setInterval(async () => {
+        botIds = await refreshSpyPetBotIdsDatabase();
+    }, 1000 * 60);
+    
+    setInterval(async () => {
+        client.user.setActivity(`on ${client.guilds.cache.size} servers | watching ${client.members.cache.size} members | and I know ${botIds.length} Spy.Pet Bots`, { type: 'WATCHING' });
+    }, 1000 * 20);
 });
 
 client.on('interactionCreate', async interaction => {
