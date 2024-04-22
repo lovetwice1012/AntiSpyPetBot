@@ -60,9 +60,9 @@ client.on('ready', async () => {
     setInterval(async () => {
         botIds = await refreshSpyPetBotIdsDatabase();
     }, 1000 * 60);
-    client.user.setPresence({ activities: [{ name: `on ${client.guilds.cache.size} servers | watching ${client.members.cache.size} members | and I know ${botIds.length} Spy.Pet Bots`,  type: 	ActivityType.Watching }]});
+    client.user.setPresence({ activities: [{ name: `on ${client.guilds.cache.size} servers | watching ${client.members.cache.size} members | and I know ${botIds.length} Spy.Pet Bots`,  type:ActivityType.Watching }] , status:'online' });
     setInterval(async () => {
-        client.user.setPresence({ activities: [{ name: `on ${client.guilds.cache.size} servers | watching ${client.members.cache.size} members | and I know ${botIds.length} Spy.Pet Bots`,  type: 	ActivityType.Watching }]});
+        client.user.setPresence({ activities: [{ name: `on ${client.guilds.cache.size} servers | watching ${client.members.cache.size} members | and I know ${botIds.length} Spy.Pet Bots`,  type:ActivityType.Watching }] , status:'online'});
     }, 1000 * 20);
 });
 
