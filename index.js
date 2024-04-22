@@ -34,6 +34,7 @@ let botIds = []
 client.on('ready', () => {
     console.log('Bot is ready');
     botIds = refreshSpyPetBotIdsDatabase();
+    client.application.commands.set(slashCommands);
 });
 
 client.on('interactionCreate', async interaction => {
