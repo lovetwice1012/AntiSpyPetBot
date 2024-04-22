@@ -41,7 +41,7 @@ const slashCommands = [
     }
 ];
 
-global.botIds = []
+botIds = []
 
 client.on('ready', async () => {
     console.log('Bot is ready');
