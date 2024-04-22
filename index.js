@@ -43,9 +43,9 @@ const slashCommands = [
 
 global.botIds = []
 
-client.on('ready', () => {
+client.on('ready', async () => {
     console.log('Bot is ready');
-    global.botIds = refreshSpyPetBotIdsDatabase();
+    global.botIds = await refreshSpyPetBotIdsDatabase();
     client.application.commands.set(slashCommands);
 });
 
