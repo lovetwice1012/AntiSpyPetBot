@@ -95,7 +95,7 @@ client.on('interactionCreate', async interaction => {
             }
             if(!flag) await interaction.followUp('No spy.pet bots were found in the server\nstart banning all known spy.pet bots');
             //check if the bot has the permission to ban members
-            if(!interaction.guild.me.permissions.has(PermissionsBitField.Flags.BanMembers)){
+            if(!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.BanMembers)){
                 await interaction.followUp('I don\'t have the "Ban Members" permission');
                 return;
             }
