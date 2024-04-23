@@ -1,5 +1,5 @@
 const discord = require('discord.js');
-const {GatewayIntentBits,ActivityType } = require('discord.js');
+const {GatewayIntentBits,ActivityType,PermissionsBitField } = require('discord.js');
 const client = new discord.Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers]});
 const config = require('./config.json');
 
@@ -77,12 +77,28 @@ client.on('interactionCreate', async interaction => {
         //botIdsに含まれるbotのidを持つメンバーをBANする
         let flag = false;
         interaction.guild.members.fetch().then(async members => {
+            let embeds = [];
             members.forEach(member => {
                 if (botIds.includes(member.id)) {
+                    embeds.push({
+                        title: 'Warning',
+                        description: `Found a spy.pet bot[<@${member.id}>(${member.id})] in the server.`,
+                        color: 0xff0000
+                    })
                     flag = true;
                 }
             });
+            if(embeds.length > 0){
+                for(let i = 0; i < embeds.length % 10; i++){
+                    await interaction.followUp({embeds:embeds.slice(i*10, (i+1)*10)});
+                }
+            }
             if(!flag) await interaction.followUp('No spy.pet bots were found in the server\nstart banning all known spy.pet bots');
+            //check if the bot has the permission to ban members
+            if(!interaction.guild.me.permissions.has(PermissionsBitField.Flags.BanMembers)){
+                await interaction.followUp('I don\'t have the "Ban Members" permission');
+                return;
+            }
             botIds.forEach(async id => {
                 await interaction.guild.bans.create(id, { reason: 'Known spy.pet bot'});
             });
@@ -133,7 +149,30 @@ client.on('interactionCreate', async interaction => {
 
 client.on('GuildMemberAdd',async  member => {
     if (botIds.includes(member.id)) {
-        member.ban({ reason: '[WARNING] Known spy.pet bot'});
+        let cantBan = false;
+        if(!member.guild.members.me.permissions.has(PermissionsBitField.Flags.BanMembers)){
+            cantBan = true;
+            return;
+        }
+        member.guild.systemChannel.send({embeds:[{
+            title: 'Warning',
+            description: cantBan ? `I found a spy.pet bot[<@${member.id}>(${member.id})] in your server,\n but I don't have the "Ban Members" permission. \nAutomatically banning the bot is not possible. Please ban the bot manually.` : `[WARNING] I found a spy.pet bot[<@${member.id}>(${member.id})] in your server. \nTrying to automatically banning the bot...`,
+            color: 0xff0000
+        }]})
+        if(cantBan) return;
+        member.ban({ reason: '[WARNING] Known spy.pet bot'}).then(() => {
+            member.guild.systemChannel.send({embeds:[{
+                title: 'Banned',
+                description: `Banned spy.pet bot[<@${member.id}>(${member.id})]`,
+                color: 0xff0000
+            }]})
+        }).catch(() => {
+            member.guild.systemChannel.send({embeds:[{
+                title: 'Failed to ban',
+                description: `Failed to ban spy.pet bot[<@${member.id}>(${member.id})]`,
+                color: 0xff0000
+            }]})
+        });
     }
 });
 
